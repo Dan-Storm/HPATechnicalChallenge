@@ -21,6 +21,7 @@ namespace HPATechnicalChallengeAutomation
             // Navigate to test URL
             driver.Navigate().GoToUrl("http://hpadevtest.azurewebsites.net/");
 
+
             // Step 1 click Box 1
             driver.FindElement(By.Id("Box1")).Click();
 
@@ -91,6 +92,9 @@ namespace HPATechnicalChallengeAutomation
 
             var submitButton = driver.FindElement(By.XPath("//button[contains(text(),'Submit')]"));
             submitButton.Click();
+
+            //Dismiss Alert
+            DismissAlert();
 
             void DismissAlert()
             {
