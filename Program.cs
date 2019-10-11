@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HPATechnicalChallengeAutomation
@@ -96,14 +97,34 @@ namespace HPATechnicalChallengeAutomation
             //Dismiss Alert
             DismissAlert();
 
+            // Step 6 scroll to x and insert result of step 5
+
+            var result = driver.FindElement(By.Id("formResult")).Text;
+            var inputNumStr = driver.FindElement(By.Id("lineNum")).Text;
+            var inputNum = Convert.ToInt32(inputNumStr);
+            var resultInput = driver.FindElement(By.XPath($"/html[1]/body[1]/div[4]/center[1]/div[1]/center[1]/table[1]/tbody[1]/tr[{inputNum}]/td[2]/input[1]"));
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultInput);
+            resultInput.Clear();
+            resultInput.SendKeys(result);
+            resultInput.SendKeys(Keys.Enter);
+
+            //Dismiss Alert
+            DismissAlert();
+
+            // Step 7 click Box 7 and wait
+            for(var i = 7; i <= 10; i++)
+            {
+            driver.FindElement(By.Id($"Box{i}")).Click();
+            Thread.Sleep(6000);
+            //Dismiss Alert
+            DismissAlert();
+            }
+
             void DismissAlert()
             {
                 // Dismiss Alert
                 driver.SwitchTo().Alert().Accept();
             }
-
-
-
         }
     }
 }
