@@ -1,4 +1,4 @@
-# Dan Storm Junior Developer HPA Automation Technical Challenge
+#Dan Storm Junior Developer HPA Automation Technical Challenge
 
 ## Research Process
 
@@ -27,9 +27,11 @@ Here I hit another roadblock. I didn’t realize at first that the option to sel
 ***Fifth Task*** Select variable from dropdown
 Ready for a dynamically changing required value from my experience with the previous task, I refreshed the page several times to see if the value was changing. When I discovered it was, I used a similar method as I did on the previous task to dynamically get the correct value from the dropdown.
 
-***Sixth Task***
+***Sixth Task*** Fill out and submit form 
 Here I hit another roadblock. I didn’t realize until I tried targeting the value from the second date input that they had the same Id, as did the city, state, and country inputs. I knew then that I had to target the fields in a different way. XPath was the first idea that came to mind. Researching a little more, I decided that absolute path was a good option for targeting the fields. After some trial and error where I manually tried to enter the absolute XPath, I couldn’t get it to work. So I searched for a way to find the absolute XPath. I found a google chrome extension called ChroPath which targeted the element and generated the absolute XPath. With this tool, I was able to easily find the absolute and relative paths of the rest of the inputs and fill them in dynamically with the placeholder text. Then I targeted the submit button and clicked it.
 
-At this point, I ran out of time and was unable to find a way to capture the result of the form submission. 
+***Seventh Task*** Capture the result of the form submission and paste it into X line after scrolling to X line.
+Ready for another dynamic task, I knew I would have to get the input value in the same way as I had before. I used that input value to dynamically scroll to the correct input. I found how to do this on Stack Overflow. I stored the result, cleared the input field and inserted the result.
 
-
+***Eighth Task*** Click through the remaining boxes 
+I knew this one couldn’t be so simple as clicking the remaining boxes and after observing the wait times between clicks several times, discovered that they varied. I targeted the javascript and created a loop that clicked through the boxes and dismissed the alerts after the maximum possible interval set by the javascript. 
