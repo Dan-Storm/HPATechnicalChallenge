@@ -6,16 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HPATechnicalChallengeAutomation
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-
             IWebDriver driver = new ChromeDriver();
 
             // Navigate to test URL
@@ -49,57 +48,56 @@ namespace HPATechnicalChallengeAutomation
             //Dismiss Alert
             DismissAlert();
 
-
             // Step 5
             // get placeholder value and autofill input field
-
-            var formDate = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[1]/td[1]/input[1]"));
-            String formDateText = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[1]/td[1]/input[1]")).GetAttribute("placeholder");
-            formDate.SendKeys(formDateText);
-
-            var formCity = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[2]/td[1]/input[1]"));
-            String formCityText = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[2]/td[1]/input[1]")).GetAttribute("placeholder");
-            formCity.SendKeys(formCityText);
-
-            var formState = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/input[1]"));
-            String formStateText = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[3]/td[1]/input[1]")).GetAttribute("placeholder");
-            formState.SendKeys(formStateText);
-
-            var formCountry = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[4]/td[1]/input[1]"));
-            String formCountryText = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[4]/td[1]/input[1]")).GetAttribute("placeholder");
-            formCountry.SendKeys(formCountryText);
-
-            var formDate2 = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[5]/td[1]/input[1]"));
-            String formDate2Text = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[5]/td[1]/input[1]")).GetAttribute("placeholder");
-            formDate2.SendKeys(formDate2Text);
-
-            var formCity2 = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[6]/td[1]/input[1]"));
-            String formCity2Text = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[6]/td[1]/input[1]")).GetAttribute("placeholder");
-            formCity2.SendKeys(formCity2Text);
-
-            var formState2 = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[7]/td[1]/input[1]"));
-            String formState2Text = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[7]/td[1]/input[1]")).GetAttribute("placeholder");
-            formState2.SendKeys(formState2Text);
-
-            var formCountry2 = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[8]/td[1]/input[1]"));
-            String formCountry2Text = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[8]/td[1]/input[1]")).GetAttribute("placeholder");
-            formCountry2.SendKeys(formCountry2Text);
-
-            var formDate3 = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[9]/td[1]/input[1]"));
-            String formDate3Text = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/tr[9]/td[1]/input[1]")).GetAttribute("placeholder");
-            formDate3.SendKeys(formDate3Text);
+            var path = "/html[1]/body[1]/div[5]/center[1]/div[1]/div[1]/div[1]/center[1]/table[1]/tbody[1]/";
+            for (var i = 1; i <= 9; i++)
+            {
+                var form = driver.FindElement(By.XPath($"{path}tr[{i}]/td[1]/input[1]"));
+                String formData = driver.FindElement(By.XPath($"{path}tr[{i}]/td[1]/input[1]"))
+                    .GetAttribute("placeholder");
+                form.SendKeys(formData);
+            }
 
             var submitButton = driver.FindElement(By.XPath("//button[contains(text(),'Submit')]"));
             submitButton.Click();
+
+            //Dismiss Alert
+            DismissAlert();
+
+            // Step 6 scroll to X and insert result of step 5
+            var result = driver.FindElement(By.Id("formResult")).Text;
+            var inputNumStr = driver.FindElement(By.Id("lineNum")).Text;
+            // Convert string to number
+            var inputNum = Convert.ToInt32(inputNumStr);
+            var resultInput = driver.FindElement(By.XPath($"/html[1]/body[1]/div[4]/center[1]/div[1]/center[1]/table[1]/tbody[1]/tr[{inputNum}]/td[2]/input[1]"));
+
+            // Scroll to specified input
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultInput);
+            // Clear input field
+            resultInput.Clear();
+            // Submit result
+            resultInput.SendKeys(result);
+            resultInput.SendKeys(Keys.Enter);
+
+            //Dismiss Alert
+            DismissAlert();
+
+            // Step 7 click Box 7-10 and wait 6 seconds between each.
+            for (var i = 7; i <= 10; i++)
+            {
+                driver.FindElement(By.Id($"Box{i}")).Click();
+                // Pause thread for 6 seconds
+                Thread.Sleep(6000);
+                //Dismiss Alert
+                DismissAlert();
+            }
 
             void DismissAlert()
             {
                 // Dismiss Alert
                 driver.SwitchTo().Alert().Accept();
             }
-
-
-
         }
     }
 }
