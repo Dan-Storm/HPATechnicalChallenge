@@ -1,13 +1,8 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HPATechnicalChallengeAutomation
 {
@@ -88,7 +83,7 @@ namespace HPATechnicalChallengeAutomation
             {
                 driver.FindElement(By.Id($"Box{i}")).Click();
                 // Pause thread for 6 seconds
-                Thread.Sleep(6000);
+                Thread.Sleep(6001);
                 //Dismiss Alert
                 DismissAlert();
             }
